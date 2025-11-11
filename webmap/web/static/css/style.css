@@ -1,24 +1,31 @@
+/* Подключение локального шрифта */
+@font-face {
+    font-family: "minecraft";
+    src: url("/static/assets/minecraft.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Глобальные стили (обновлены под Minecraftia) */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
 body,
 #map {
     width: 100%;
     height: 100vh;
-    background: #0d0812;
-    font-family: "Inter", sans-serif;
+    background: linear-gradient(135deg, #0b0b1a, #1a1a2e);
+    font-family: "minecraft", sans-serif; /* Используем Minecraftia */
     color: #e0d0f0;
     overflow: hidden;
 }
-
 .leaflet-container {
-    background: #0d0812;
+    background: transparent;
 }
 
-/* UI */
+/* === Ваша UI-панель (обновлена под шрифт) === */
 .ui-panel {
     position: absolute;
     top: 16px;
@@ -29,11 +36,9 @@ body,
     pointer-events: none;
     z-index: 1000;
 }
-
 .ui-panel > * {
     pointer-events: auto;
 }
-
 .logo {
     display: flex;
     align-items: center;
@@ -42,46 +47,43 @@ body,
     padding: 8px 14px;
     border-radius: 10px;
     border: 1px solid #5a3d7a;
-    font-weight: 700;
+    font-weight: normal;
     color: #c74aff;
     backdrop-filter: blur(4px);
     transition: all 0.25s ease;
+    font-size: 18px; /* Размер под шрифт */
 }
-
 .logo:hover {
     background: rgba(26, 12, 32, 0.95);
     border-color: #c74aff;
     color: #fff;
     box-shadow: 0 0 12px rgba(199, 74, 255, 0.4);
 }
-
 .logo svg {
     transition: all 0.25s ease;
 }
-
 .logo:hover svg {
     filter: drop-shadow(0 0 8px #c74aff);
 }
-
 .coords {
     background: rgba(26, 12, 32, 0.7);
     padding: 8px 14px;
     border-radius: 10px;
     border: 1px solid #5a3d7a;
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: normal;
     color: #e0d0f0;
     backdrop-filter: blur(4px);
     transition: all 0.2s ease;
     cursor: pointer;
+    font-family: "minecraft", sans-serif;
 }
-
 .coords:hover {
     border-color: #ff3a6e;
     color: #ff3a6e;
 }
 
-/* Zoom controls */
+/* Зум-контрол (сохранён ваш стиль) */
 .leaflet-control-zoom {
     background: rgba(26, 12, 32, 0.8);
     border: 1px solid #5a3d7a;
@@ -89,21 +91,6 @@ body,
     overflow: hidden;
     backdrop-filter: blur(4px);
 }
-
-.leaflet-bar a.leaflet-control-zoom-out.leaflet-disabled {
-    background-color: rgba(26, 12, 32, 0.8);
-    color: #c74aff;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-.leaflet-bar a.leaflet-control-zoom-in.leaflet-disabled {
-    background-color: rgba(26, 12, 32, 0.8);
-    color: #c74aff;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
 .leaflet-control-zoom a {
     background: transparent;
     color: #c74aff;
@@ -114,37 +101,132 @@ body,
     font-weight: bold;
     transition: all 0.2s ease;
 }
-
 .leaflet-control-zoom a:hover {
     background: rgba(199, 74, 255, 0.25);
     color: #fff;
     transform: scale(1.12);
 }
-
-/* Hide attribution */
 .leaflet-control-attribution {
     display: none !important;
 }
 
-/* Background glow */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background:
-        radial-gradient(
-            circle at 30% 30%,
-            rgba(199, 74, 255, 0.06) 0%,
-            transparent 25%
-        ),
-        radial-gradient(
-            circle at 70% 70%,
-            rgba(255, 58, 110, 0.06) 0%,
-            transparent 25%
-        );
-    pointer-events: none;
-    z-index: -1;
+/* === Стили для игроков (НОВЫЕ) === */
+.player-avatar-wrapper {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #4a90e2;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.7);
+    background: rgba(0, 0, 0, 0.3);
+}
+/* Ник под аватаркой */
+.player-nickname {
+    position: absolute;
+    top: 24px; /* сразу под аватаркой 24px */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 10px;
+    text-shadow: 0 0 3px black;
+    max-width: 60px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: "minecraft", sans-serif;
+}
+.player-avatar {
+    image-rendering: pixelated;
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+/* Popup игрока */
+.player-popup {
+    font-family: "minecraft", sans-serif;
+    min-width: 200px;
+    background: rgba(10, 5, 15, 0.9);
+    color: #e0d0f0;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #5a3d7a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+.player-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.popup-avatar {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #c74aff;
+    border-radius: 3px;
+    image-rendering: pixelated;
+}
+.player-popup h3 {
+    margin: 0;
+    color: #c74aff;
+    font-size: 16px;
+}
+.player-coords {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+.player-coords span {
+    background: rgba(26, 12, 32, 0.6);
+    padding: 4px 6px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 13px;
+}
+.player-footer {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 8px;
+    text-align: center;
+    font-family: "minecraft", sans-serif;
+}
+.player-icon {
+    border: 2px solid #c74aff;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.7);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Анимация появления игроков */
+@keyframes fadeInPlayer {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.player-marker-animated {
+    animation: fadeInPlayer 0.4s ease-out forwards;
+}
+
+/* Анимация координат */
+.coords.copied {
+    animation: pulse 0.4s;
+    color: #69f0ae;
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

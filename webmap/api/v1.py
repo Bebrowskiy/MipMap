@@ -1,7 +1,8 @@
 # api/v1.py
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, UploadFile, Form
 from fastapi.responses import FileResponse
 from core.models import WorldData
+from core.player_manager import player_manager
 from core.chunk_storage import update_blocks, get_blocks_in_region, invalidate_cache_for_blocks
 from core.tile_worker import render_tile_in_process  # ← НОВЫЙ импорт
 from pathlib import Path
@@ -86,3 +87,30 @@ async def get_tile(z: int, x: int, y: int):
     except Exception:
         logger.exception("Tile render error")
         return Response(status_code=500, content="Render failed")
+
+@router.post("/players")
+async def update_player(
+    nickname: str = Form(...),
+    x: int = Form(...),
+    y: int = Form(...),
+    z: int = Form(...),
+    face: UploadFile = Form(...)
+):
+    face_bytes = await face.read()
+    await player_manager.update_player(nickname, x, y, z, face_bytes)
+    return {"status": "ok"}
+
+@router.get("/players")
+async def get_players_in_view(
+    x_min: int, x_max: int,
+    z_min: int, z_max: int
+):
+    players = await player_manager.get_players_in_region(x_min, x_max, z_min, z_max)
+    return {"players": players}
+
+@router.get("/players/{nickname}/face.webp")
+async def get_player_face(nickname: str):
+    face_path = await player_manager.get_player_face_path(nickname)
+    if not face_path:
+        return Response(status_code=404)
+    return FileResponse(face_path, media_type="image/webp")

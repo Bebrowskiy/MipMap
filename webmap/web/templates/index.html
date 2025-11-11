@@ -7,24 +7,18 @@
         <link
             rel="icon"
             type="image/svg+xml"
-            href="static/assets/favicon.svg"
+            href="/static/assets/favicon.svg"
         />
         <link
             rel="stylesheet"
             href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="static/css/style.css" />
+        <!-- Подключаем ваш локальный шрифт -->
+        <link rel="stylesheet" href="/static/css/style.css" />
     </head>
     <body>
         <div id="map"></div>
-
-        <!-- UI-панель -->
+        <!-- UI-панель (сохранена из вашего старого файла) -->
         <div class="ui-panel">
             <div class="logo">
                 <svg
@@ -72,13 +66,13 @@
                         </clipPath>
                     </defs>
                 </svg>
-
                 <span>MipMap</span>
             </div>
             <div class="coords" id="coords">x: 0, z: 0</div>
         </div>
 
+        <!-- Leaflet JS -->
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        <script type="module" src="static/js/map.js"></script>
+        <script type="module" src="/static/js/map.js"></script>
     </body>
 </html>
