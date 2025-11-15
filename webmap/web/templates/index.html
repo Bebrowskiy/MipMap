@@ -2,7 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
         <title>MipMap — Minecraft Map Viewer</title>
         <link
             rel="icon"
@@ -13,17 +16,17 @@
             rel="stylesheet"
             href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         />
-        <!-- Подключаем ваш локальный шрифт -->
-        <link rel="stylesheet" href="/static/css/style.css" />
+        <link rel="stylesheet" href="static/css/style.css"
     </head>
     <body>
         <div id="map"></div>
-        <!-- UI-панель (сохранена из вашего старого файла) -->
-        <div class="ui-panel">
-            <div class="logo">
+
+        <!-- Общий UI — одинаковый для всех устройств -->
+        <div class="ui-header">
+            <div class="logo" id="logo">
                 <svg
-                    width="52"
-                    height="52"
+                    width="30"
+                    height="30"
                     viewBox="0 0 1024 1024"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -66,13 +69,23 @@
                         </clipPath>
                     </defs>
                 </svg>
+
                 <span>MipMap</span>
             </div>
+
             <div class="coords" id="coords">x: 0, z: 0</div>
+
+            <div class="world-selector" id="worldSelector">
+                <button class="world-btn active" data-world="overworld">
+                    Overworld
+                </button>
+                <button class="world-btn" data-world="nether">Nether</button>
+                <button class="world-btn" data-world="end">End</button>
+            </div>
         </div>
 
         <!-- Leaflet JS -->
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        <script type="module" src="/static/js/map.js"></script>
+        <script src="static/js/map.js"></script>
     </body>
 </html>

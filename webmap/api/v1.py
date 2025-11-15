@@ -32,13 +32,13 @@ async def update_world(data: WorldData):
     invalidate_cache_for_blocks(blocks=block_tuples)
     return {"status": "ok", "updated": len(block_tuples)}
 
-@router.get("/tiles/{z}/{x}/{y}.webp")
-async def get_tile(z: int, x: int, y: int):
+@router.get("/tiles/{dimension}/{z}/{x}/{y}.webp")
+async def get_tile(dimension: str, z: int, x: int, y: int):
     # Ограничение zoom (опционально, но рекомендуется)
     if z < 1 or z > 5:
         return Response(status_code=404)
 
-    cache_path = TILE_CACHE_DIR / str(z) / str(x)
+    cache_path = TILE_CACHE_DIR / str(dimension) / str(z) / str(x)
     cache_file = cache_path / f"{y}.webp"
 
     if cache_file.exists():

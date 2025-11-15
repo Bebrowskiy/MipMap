@@ -6,7 +6,6 @@
     font-style: normal;
 }
 
-/* Глобальные стили (обновлены под Minecraftia) */
 * {
     margin: 0;
     padding: 0;
@@ -17,7 +16,7 @@ body,
     width: 100%;
     height: 100vh;
     background: linear-gradient(135deg, #0b0b1a, #1a1a2e);
-    font-family: "minecraft", sans-serif; /* Используем Minecraftia */
+    font-family: "minecraft", sans-serif;
     color: #e0d0f0;
     overflow: hidden;
 }
@@ -25,33 +24,38 @@ body,
     background: transparent;
 }
 
-/* === Ваша UI-панель (обновлена под шрифт) === */
-.ui-panel {
+/* === Общий UI === */
+.ui-header {
     position: absolute;
-    top: 16px;
-    left: 16px;
+    top: 0;
+    left: 0;
+    right: 0;
     display: flex;
-    gap: 16px;
     align-items: center;
-    pointer-events: none;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(10, 5, 15, 0.7);
+    backdrop-filter: blur(8px);
     z-index: 1000;
+    gap: 12px;
+    /* Для iPhone и т.п. */
+    padding-top: env(safe-area-inset-top, 12px);
 }
-.ui-panel > * {
-    pointer-events: auto;
-}
+
 .logo {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(26, 12, 32, 0.7);
+    background: rgba(26, 12, 32, 0.85);
     padding: 8px 14px;
     border-radius: 10px;
     border: 1px solid #5a3d7a;
     font-weight: normal;
     color: #c74aff;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
     transition: all 0.25s ease;
-    font-size: 18px; /* Размер под шрифт */
+    font-size: 18px;
+    white-space: nowrap;
 }
 .logo:hover {
     background: rgba(26, 12, 32, 0.95);
@@ -59,37 +63,87 @@ body,
     color: #fff;
     box-shadow: 0 0 12px rgba(199, 74, 255, 0.4);
 }
-.logo svg {
+
+.logo-svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
     transition: all 0.25s ease;
 }
-.logo:hover svg {
+.logo:hover .logo-svg {
     filter: drop-shadow(0 0 8px #c74aff);
 }
+
 .coords {
-    background: rgba(26, 12, 32, 0.7);
+    display: inline-block;
+    background: rgba(26, 12, 32, 0.85);
     padding: 8px 14px;
     border-radius: 10px;
     border: 1px solid #5a3d7a;
     font-size: 16px;
     font-weight: normal;
     color: #e0d0f0;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
     transition: all 0.2s ease;
     cursor: pointer;
     font-family: "minecraft", sans-serif;
+    white-space: nowrap;
+    text-align: center;
+    box-sizing: border-box;
+    pointer-events: auto;
 }
 .coords:hover {
     border-color: #ff3a6e;
     color: #ff3a6e;
 }
 
-/* Зум-контрол (сохранён ваш стиль) */
+.leaflet-bar a.leaflet-disabled {
+    cursor: default;
+    background-color: rgba(26, 12, 32, 0.85);
+    color: #c74aff;
+}
+
+/* Переключатель миров — в шапке */
+.world-selector {
+    display: flex;
+    gap: 8px;
+    background: rgba(26, 12, 32, 0.85);
+    padding: 6px;
+    border-radius: 10px;
+    border: 1px solid #5a3d7a;
+    backdrop-filter: blur(8px);
+    z-index: 1001;
+}
+.world-btn {
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #e0d0f0;
+    font-family: "minecraft", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+.world-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+.world-btn.active {
+    background: rgba(199, 74, 255, 0.3);
+    border-color: #c74aff;
+    color: #c74aff;
+    font-weight: bold;
+}
+
+/* Зум-контрол */
 .leaflet-control-zoom {
-    background: rgba(26, 12, 32, 0.8);
+    background: rgba(26, 12, 32, 0.85);
     border: 1px solid #5a3d7a;
     border-radius: 8px;
     overflow: hidden;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
 }
 .leaflet-control-zoom a {
     background: transparent;
@@ -110,7 +164,24 @@ body,
     display: none !important;
 }
 
-/* === Стили для игроков (НОВЫЕ) === */
+/* Анимация координат */
+.coords.copied {
+    animation: pulse 0.4s;
+    color: #69f0ae;
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* === Стили для игроков === */
 .player-avatar-wrapper {
     width: 24px;
     height: 24px;
@@ -122,10 +193,9 @@ body,
     box-shadow: 0 0 8px rgba(74, 144, 226, 0.7);
     background: rgba(0, 0, 0, 0.3);
 }
-/* Ник под аватаркой */
 .player-nickname {
     position: absolute;
-    top: 24px; /* сразу под аватаркой 24px */
+    top: 24px;
     left: 50%;
     transform: translateX(-50%);
     color: white;
@@ -144,7 +214,6 @@ body,
     height: 16px;
     display: block;
 }
-/* Popup игрока */
 .player-popup {
     font-family: "minecraft", sans-serif;
     min-width: 200px;
@@ -199,7 +268,6 @@ body,
     background: rgba(0, 0, 0, 0.3);
 }
 
-/* Анимация появления игроков */
 @keyframes fadeInPlayer {
     from {
         opacity: 0;
@@ -214,19 +282,63 @@ body,
     animation: fadeInPlayer 0.4s ease-out forwards;
 }
 
-/* Анимация координат */
-.coords.copied {
-    animation: pulse 0.4s;
-    color: #69f0ae;
+/* Мобильные стили */
+@media (max-width: 768px) {
+    /* На мобильных — убираем десктопный UI */
+    .desktop-ui {
+        display: none;
+    }
+
+    /* Шапка — всегда видна, не перекрывает карту */
+    .ui-header {
+        padding: 12px 16px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .logo {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+    .coords {
+        font-size: 15px;
+        padding: 6px 12px;
+    }
+    .world-selector {
+        padding: 5px;
+        gap: 6px;
+    }
+    .world-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .leaflet-control-zoom a {
+        width: 32px;
+        height: 32px;
+        line-height: 32px;
+        font-size: 17px;
+    }
 }
-@keyframes pulse {
-    0% {
-        transform: scale(1);
+
+@media (max-width: 480px) {
+    .ui-header {
+        padding: 10px 12px;
+        gap: 6px;
     }
-    50% {
-        transform: scale(1.05);
+    .logo {
+        font-size: 14px;
+        padding: 5px 10px;
     }
-    100% {
-        transform: scale(1);
+    .coords {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+    .world-selector {
+        padding: 4px;
+        gap: 4px;
+    }
+    .world-btn {
+        padding: 4px 8px;
+        font-size: 11px;
     }
 }
